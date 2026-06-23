@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { 
   ArrowRight, 
@@ -88,36 +89,56 @@ export default function FeaturedCategories({ categories }: FeaturedCategoriesPro
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05, duration: 0.5 }}
+                className="h-full"
               >
                 <Link
                   href={`/products/${cat.slug.current}`}
-                  className="group block relative bg-white rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(30,158,142,0.12)] hover:-translate-y-1 transition-all duration-500"
+                  className="group block relative bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(30,158,142,0.12)] hover:-translate-y-1 transition-all duration-500 overflow-hidden h-full flex flex-col border border-transparent hover:border-orbin-teal/10"
                 >
-                  <div className="relative z-10 flex flex-col h-full">
-                    {/* Top Row: Icon & Arrow */}
-                    <div className="flex items-start justify-between mb-8">
-                      <div className="w-16 h-16 rounded-[1.25rem] bg-[#F8FAFC] flex items-center justify-center group-hover:bg-orbin-teal transition-colors duration-500 group-hover:shadow-lg group-hover:shadow-orbin-teal/30">
-                        <Icon className="w-8 h-8 text-orbin-teal group-hover:text-white transition-colors duration-500" strokeWidth={1.5} />
-                      </div>
-                      <div className="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center group-hover:border-orbin-teal group-hover:bg-orbin-teal/5 transition-all duration-300">
-                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-orbin-teal group-hover:-rotate-45 transition-all duration-300" />
-                      </div>
+                  {/* Premium Image Header */}
+                  <div className="relative h-56 w-full bg-gray-100 overflow-hidden flex-shrink-0">
+                    <Image 
+                      src="/images/home/category-placeholder.png" 
+                      alt={cat.title} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
+                    {/* Inner Shadow / Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Overlay Icon Container (Glassmorphism) */}
+                    <div className="absolute bottom-5 left-6 w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg group-hover:bg-orbin-teal group-hover:border-orbin-teal transition-colors duration-500">
+                      <Icon className="w-7 h-7 text-white" strokeWidth={1.5} />
                     </div>
 
-                    {/* Content */}
-                    <div className="mt-auto">
-                      <h3 className="text-2xl font-display font-bold text-gray-900 mb-3 group-hover:text-orbin-teal transition-colors duration-300">
-                        {cat.title}
-                      </h3>
-                      <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-6 font-medium">
-                        {cat.description}
-                      </p>
+                    {/* Overlay Arrow Container (Glassmorphism) */}
+                    <div className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg group-hover:bg-orbin-teal group-hover:border-orbin-teal transition-all duration-300">
+                      <ArrowRight className="w-4 h-4 text-white group-hover:-rotate-45 transition-transform duration-300" />
+                    </div>
+                  </div>
 
-                      {/* Product Count Pill */}
-                      {cat.productCount !== undefined && cat.productCount > 0 && (
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 text-xs font-semibold text-gray-600 group-hover:bg-orbin-teal/10 group-hover:text-orbin-teal transition-colors">
+                  {/* Content */}
+                  <div className="p-6 md:p-8 flex flex-col flex-grow">
+                    <h3 className="text-2xl font-display font-bold text-gray-900 mb-3 group-hover:text-orbin-teal transition-colors duration-300">
+                      {cat.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-6 font-medium">
+                      {cat.description}
+                    </p>
+
+                    {/* Product Count Pill */}
+                    <div className="mt-auto">
+                      {cat.productCount !== undefined && cat.productCount > 0 ? (
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-100 text-xs font-semibold text-gray-600 group-hover:bg-orbin-teal/10 group-hover:text-orbin-teal group-hover:border-orbin-teal/20 transition-all duration-300">
                           <span className="w-1.5 h-1.5 rounded-full bg-current opacity-60" />
                           {cat.productCount} Product{cat.productCount !== 1 ? "s" : ""}
+                        </div>
+                      ) : (
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-100 text-xs font-semibold text-gray-400">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                          Coming Soon
                         </div>
                       )}
                     </div>
