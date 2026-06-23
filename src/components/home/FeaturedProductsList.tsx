@@ -146,7 +146,7 @@ export default function FeaturedProductsList({ products }: FeaturedProductsListP
           {categories.map((cat) => {
             const label = cat === "all" 
               ? "All Products" 
-              : cat.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ").replace(" Pumps", "");
+              : (cat ?? "").split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ").replace(" Pumps", "");
             
             return (
               <button
