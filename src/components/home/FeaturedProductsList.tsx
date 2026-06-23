@@ -14,10 +14,10 @@ interface FeaturedProductsListProps {
 export default function FeaturedProductsList({ products }: FeaturedProductsListProps) {
   const [activeTab, setActiveTab] = useState("all");
 
-  // Extract unique categories for the tabs
-  const categories = useMemo(() => {
+  // Extract unique categories for the tabs (filter out undefined slugs)
+  const categories = useMemo((): string[] => {
     if (!products) return ["all"];
-    const cats = Array.from(new Set(products.map((p) => p.categorySlug)));
+    const cats = Array.from(new Set(products.map((p) => p.categorySlug))).filter((c): c is string => !!c);
     return ["all", ...cats];
   }, [products]);
 
@@ -146,7 +146,7 @@ export default function FeaturedProductsList({ products }: FeaturedProductsListP
           {categories.map((cat) => {
             const label = cat === "all" 
               ? "All Products" 
-              : (cat ?? "").split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ").replace(" Pumps", "");
+              : cat.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ").replace(" Pumps", "");
             
             return (
               <button
